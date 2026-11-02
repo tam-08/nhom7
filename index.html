@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tình Nguyện Xanh - Hành Động Vì Môi Trường</title>
+    <style>
+        /* ==========================================================================
+           1. HỆ THỐNG BIẾN TOÀN CỤC & RESET CHUẨN
+           ========================================================================== */
+        :root {
+            --color-primary-dark: #1b4332;
+            --color-primary: #2d6a4f;
+            --color-primary-light: #74c69d;
+            --color-accent-soft: #a5d6a7;
+            --color-accent-light: #d8f3dc;
+            --color-bg: #f9fbf9;
+            --color-card-bg: #ffffff;
+            --color-text-main: #2c3e50;
+            --color-text-muted: #666666;
+            --color-border: #e2e8f0;
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-pill: 6.25rem;
+            --transition-speed: 0.25s;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html {
+            font-size: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            background-color: #e9ecef;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 75rem;
+            margin-inline: auto;
+            padding-inline: clamp(1rem, 4vw, 2rem);
+        }
+
+        /* ==========================================================================
+           2. HEADER & MENU ĐIỀU HƯỚNG SPA
+           ========================================================================== */
+        header {
+            background-color: #ffffff;
+            border-bottom: 0.0625rem solid var(--color-border);
+            padding-block: 0.85rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem 1rem;
+        }
+
+        .logo {
+            font-weight: 700;
+            color: var(--color-primary);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo-badge {
+            width: 0.85rem;
+            height: 1.25rem;
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+            border-radius: var(--radius-pill);
+            display: inline-block;
+        }
+
+        .logo span {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            font-weight: 400;
+            display: block;
+        }
+
+        .btn-join {
+            background-color: var(--color-primary-dark);
+            color: #ffffff !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-join:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        nav {
+            width: 100%;
+            order: 3;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.25rem;
+        }
+
+        nav::-webkit-scrollbar {
+            height: 0.2rem;
+        }
+        nav::-webkit-scrollbar-thumb {
+            background: var(--color-accent-soft);
+            border-radius: 1rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            white-space: nowrap;
+        }
+
+        nav a.nav-link {
+            color: #555555;
+            font-size: 0.9rem;
+            display: inline-block;
+            padding-bottom: 0.35rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color var(--transition-speed) ease;
+        }
+
+        nav a.nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .nav-active {
+            color: var(--color-primary) !important;
+            font-weight: 700 !important;
+            border-bottom: 0.18rem solid var(--color-primary);
+        }
+
+        /* ==========================================================================
+           3. SPA LOGIC DISPLAY
+           ========================================================================== */
+        .spa-page {
+            display: none;
+            animation: fadeInPage 0.3s ease-in-out forwards;
+        }
+
+        .spa-page.active {
+            display: block;
+        }
+
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================================================
+           4. TIÊU ĐỀ PHÂN ĐOẠN DÙNG CHUNG
+           ========================================================================== */
+        .section-title {
+            font-size: clamp(1.2rem, 3vw, 1.4rem);
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .section-number {
+            background-color: var(--color-accent-light);
+            color: var(--color-primary-dark);
+            font-size: 0.85rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 1.25rem;
+            font-weight: 700;
+        }
+
+        .page-subtitle, .projects-subtitle, .about-subtitle, .news-subtitle, .contact-subtitle {
+            color: var(--color-primary-light);
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.35rem;
+        }
+
+        .projects-hero h1, .page-title-section h1, .about-hero h1, .news-hero h1, .contact-hero h1 {
+            font-size: clamp(1.65rem, 5vw + 0.5rem, 2.35rem);
+            color: var(--color-primary-dark);
+            line-height: 1.25;
+            margin-bottom: 0.65rem;
+        }
+
+        /* ==========================================================================
+           5. CSS TỪNG TRANG: TRANG CHỦ
+           ========================================================================== */
+        #trang-chu .hero-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-block: clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 4rem);
+        }
+
+        #trang-chu .hero-left h1 {
+            font-size: clamp(1.75rem, 5vw + 0.5rem, 2.625rem);
+            color: var(--color-primary-dark);
+            line-height: 1.25;
+            margin-block: 0.625rem 1rem;
+        }
+
+        #trang-chu .hero-left p {
+            color: var(--color-text-muted);
+            margin-bottom: 1.25rem;
+            font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+        }
+
+        #trang-chu .hero-left a.link-action {
+            color: var(--color-primary);
+            font-weight: 700;
+            display: inline-block;
+            border-bottom: 0.09rem solid var(--color-primary);
+            padding-bottom: 0.15rem;
+            cursor: pointer;
+        }
+
+        #trang-chu .hero-right img {
+            border-radius: var(--radius-md);
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr));
+            gap: 1.25rem;
+            margin-bottom: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+            gap: 1.25rem;
+            margin-bottom: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .event-card {
+            background: var(--color-card-bg);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            border-left: 0.3rem solid var(--color-primary-light);
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.04);
+        }
+
+        .event-card .date { 
+            color: #888888; 
+            font-size: 0.875rem; 
+        }
+
+        .event-card .event-title { 
+            font-weight: 700; 
+            font-size: 1.05rem; 
+            margin-block: 0.35rem; 
+            line-height: 1.4;
+        }
+
+        .event-card .location { 
+            color: #555555; 
+            font-size: 0.875rem; 
+        }
+
+        .activity-card {
+            background: var(--color-card-bg);
+            padding: 1.25rem;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .activity-card img {
+            aspect-ratio: 16 / 9;
+            height: auto;
+            margin-bottom: 0.85rem;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+        }
+
+        .activity-card .step { 
+            font-size: 0.75rem; 
+            color: #888888; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+        }
+
+        .activity-card h3 { 
+            font-size: 1.125rem; 
+            color: var(--color-primary-dark); 
+            margin-block: 0.3rem; 
+        }
+
+        .activity-card p { 
+            color: var(--color-text-muted); 
+            font-size: 0.9rem; 
+        }
+
+        .quote-banner {
+            background-color: var(--color-primary-dark);
+            color: #ffffff;
+            padding: clamp(1.75rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-bottom: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .quote-banner h2 { 
+            font-size: clamp(1.15rem, 3.5vw, 1.65rem); 
+            font-style: italic; 
+            margin-bottom: 0.75rem; 
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .quote-banner p { 
+            font-size: 0.9rem; 
+            color: var(--color-accent-soft); 
+        }
+
+        .team-card {
+            background: var(--color-card-bg);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.04);
+        }
+
+        .team-card img {
+            aspect-ratio: 1 / 1;
+            height: auto;
+            margin-bottom: 0.75rem;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            background-color: var(--color-accent-soft);
+        }
+
+        .team-card h3 { 
+            font-size: 1.05rem; 
+            margin-bottom: 0.2rem; 
+        }
+
+        .team-card p { 
+            font-size: 0.875rem; 
+            color: var(--color-text-muted); 
+        }
+
+        .join-card {
+            background: var(--color-card-bg);
+            padding: 1.75rem 1.25rem;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.04);
+        }
+
+        .join-card .num { 
+            font-size: 2rem; 
+            font-weight: 800; 
+            color: var(--color-primary-light); 
+            margin-bottom: 0.5rem; 
+            line-height: 1;
+        }
+
+        .join-card h3 { 
+            font-size: 1.05rem; 
+            margin-bottom: 0.35rem; 
+        }
+
+        .join-card p { 
+            font-size: 0.85rem; 
+            color: #888888; 
+        }
+
+        /* ==========================================================================
+           6. CSS TỪNG TRANG: GIỚI THIỆU
+           ========================================================================== */
+        .about-hero {
+            padding-block: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        .about-hero .description {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            max-width: 50rem;
+        }
+
+        .hero-images {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            width: 100%;
+        }
+
+        .placeholder-img {
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            display: block;
+            width: 100%;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.04);
+        }
+
+        .placeholder-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .img-top { 
+            aspect-ratio: 16 / 9; 
+            min-height: 12rem; 
+        }
+
+        .img-bottom { 
+            aspect-ratio: 16 / 8; 
+            min-height: 10rem; 
+        }
+
+        .timeline-section, .values-section, .team-section {
+            padding-block: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-item {
+            background: var(--color-card-bg);
+            padding: 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--color-border);
+        }
+
+        .timeline-year {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .timeline-text {
+            color: #555555;
+            font-size: 0.9375rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        .value-card {
+            background: var(--color-card-bg);
+            padding: 1.5rem 1.25rem;
+            border-radius: 12px;
+            border-top: 0.25rem solid #52b788;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--color-border);
+        }
+
+        .value-card span {
+            font-size: 0.75rem;
+            color: #888888;
+            display: block;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+        }
+
+        .value-card h4 {
+            color: var(--color-primary-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .value-card p {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+            gap: 1.25rem;
+        }
+
+        .team-member {
+            background: var(--color-card-bg);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--color-border);
+        }
+
+        .team-member .placeholder-img {
+            aspect-ratio: 1 / 1;
+            margin-bottom: 0.75rem;
+            background-color: var(--color-primary-light);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+        }
+
+        .team-member h4 {
+            color: var(--color-primary-dark);
+            font-size: 1.05rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .team-member p {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* ==========================================================================
+           7. CSS TỪNG TRANG: HOẠT ĐỘNG
+           ========================================================================== */
+        .page-title-section {
+            padding-block: clamp(1.75rem, 5vw, 3rem) clamp(1rem, 3vw, 1.875rem);
+        }
+
+        .page-title-section .description {
+            color: var(--color-text-muted);
+            font-size: 0.95rem;
+        }
+
+        .upcoming-section {
+            padding-block: 1rem clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            border-bottom: 0.0625rem solid #dddddd;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-item {
+            cursor: pointer;
+            color: #888888;
+            padding-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .tab-item.active {
+            color: var(--color-primary-dark);
+            font-weight: 700;
+            border-bottom: 0.15rem solid var(--color-primary-dark);
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 0.85rem;
+            animation: fadeInTab 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        .schedule-item {
+            background: var(--color-card-bg);
+            padding: 1.15rem 1.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            gap: 1rem;
+            border: 1px solid #f0f0f0;
+        }
+
+        .schedule-date {
+            font-size: 0.95rem;
+            color: #555555;
+            font-weight: 600;
+        }
+
+        .schedule-link {
+            color: var(--color-primary-dark);
+            font-size: 0.875rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        @keyframes fadeInTab {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .past-section {
+            padding-block: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .photo-card {
+            background-color: #ffffff;
+            aspect-ratio: 16 / 10;
+            min-height: 11rem;
+            border-radius: 12px;
+            overflow: hidden;
+            display: block;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            border-radius: 12px;
+            transition: transform 0.35s ease;
+        }
+
+        .photo-card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* ==========================================================================
+           8. CSS TỪNG TRANG: DỰ ÁN
+           ========================================================================== */
+        .projects-hero {
+            padding-block: clamp(1.75rem, 5vw, 3rem) clamp(1rem, 3vw, 1.875rem);
+        }
+
+        .project-card {
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .project-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .project-num {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-primary-light);
+            text-transform: uppercase;
+        }
+
+        .project-info h2 {
+            font-size: 1.35rem;
+            color: var(--color-primary-dark);
+            margin-block: 0.35rem 0.6rem;
+        }
+
+        .project-desc {
+            font-size: 0.95rem;
+            color: #4a5568;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-meta {
+            font-size: 0.875rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .project-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #2ecc71;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0;
+            margin-top: 1rem;
+            display: inline-block;
+            transition: color 0.2s ease;
+        }
+
+        .project-detail-panel {
+            max-height: 0;
+            overflow: hidden;
+            background-color: #f8fafc;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease;
+            padding-inline: 1.5rem;
+        }
+
+        .project-card.is-open .project-detail-panel {
+            max-height: 700px;
+            padding-block: 1.5rem;
+            border-top: 1px solid #edf2f7;
+        }
+
+        .detail-content h3 {
+            margin-top: 0;
+            color: #1a202c;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .detail-content p {
+            font-size: 0.9rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* ==========================================================================
+           9. CSS TỪNG TRANG: TIN TỨC
+           ========================================================================== */
+        .news-hero {
+            padding-block: clamp(1.75rem, 5vw, 3rem) clamp(1rem, 3vw, 1.875rem);
+        }
+
+        .news-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: clamp(2rem, 5vw, 3rem);
+        }
+
+        .featured-post {
+            background: var(--color-card-bg);
+            padding: clamp(1.25rem, 4vw, 1.75rem);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--color-border);
+        }
+
+        .featured-post .placeholder-img {
+            aspect-ratio: 16 / 10;
+            height: auto;
+            min-height: 12rem;
+            margin-bottom: 1rem;
+            background-color: var(--color-primary-light);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .post-meta {
+            font-size: 0.75rem;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .featured-post h2 {
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            color: var(--color-primary-dark);
+            margin-bottom: 0.65rem;
+            line-height: 1.3;
+        }
+
+        .featured-post p {
+            color: var(--color-text-muted);
+            font-size: 0.9375rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-more-content {
+            display: none;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border-left: 0.2rem solid var(--color-primary-light);
+            padding-left: 1rem;
+            animation: fadeInPost 0.35s ease-in-out forwards;
+        }
+
+        .post-more-content.show {
+            display: block;
+        }
+
+        .post-more-content p {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInPost {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .read-more {
+            color: var(--color-primary-dark);
+            font-weight: 700;
+            font-size: 0.875rem;
+            border-bottom: 0.09rem solid var(--color-primary-dark);
+            padding-bottom: 0.15rem;
+            display: inline-block;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .read-more:hover {
+            color: var(--color-primary);
+        }
+
+        .sidebar-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .side-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .side-item {
+            background: var(--color-card-bg);
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--color-border);
+        }
+
+        .side-item h4 {
+            color: var(--color-primary-dark);
+            font-size: 1rem;
+            margin-top: 0.35rem;
+            line-height: 1.35;
+        }
+
+        .monthly-section {
+            padding-block: 1rem clamp(2rem, 5vw, 3.5rem);
+        }
+
+        .monthly-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .monthly-item {
+            background: var(--color-card-bg);
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--color-border);
+        }
+
+        .monthly-item .date {
+            font-size: 0.75rem;
+            color: #888888;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .monthly-item h4 {
+            color: var(--color-primary-dark);
+            font-size: 1rem;
+            margin-top: 0.35rem;
+        }
+
+        /* ==========================================================================
+           10. CSS TỪNG TRANG: LIÊN HỆ
+           ========================================================================== */
+        .contact-hero {
+            padding-block: clamp(1.75rem, 5vw, 3rem) clamp(1rem, 3vw, 1.75rem);
+        }
+
+        .contact-main-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .contact-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .info-card {
+            background: var(--color-card-bg);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 0.15rem 0.5rem rgba(0, 0, 0, 0.03);
+            border: 0.0625rem solid var(--color-border);
+        }
+
+        .info-pill {
+            width: 2rem;
+            height: 1.2rem;
+            background: linear-gradient(135deg, #74c69d, #40916c);
+            border-radius: var(--radius-pill);
+            flex-shrink: 0;
+        }
+
+        .info-details {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            overflow-wrap: anywhere;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .btn-social {
+            background-color: var(--color-primary-dark);
+            color: #ffffff !important;
+            padding: 0.55rem 1.35rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.2s ease, transform 0.15s ease;
+            display: inline-block;
+        }
+
+        .btn-social:hover {
+            opacity: 0.9;
+            transform: translateY(-0.0625rem);
+        }
+
+        .form-card {
+            background: var(--color-card-bg);
+            border-radius: var(--radius-xl);
+            padding: 0.35rem;
+            box-shadow: 0 0.35rem 1.5rem rgba(0, 0, 0, 0.04);
+            border: 0.0625rem solid var(--color-border);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .form-card iframe {
+            width: 100% !important;
+            max-width: 100% !important;
+            height: 820px;
+            border: none;
+            display: block;
+            border-radius: var(--radius-lg);
+        }
+
+        .map-section {
+            margin-bottom: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .map-title {
+            font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+            color: #111827;
+            font-weight: 800;
+            margin-bottom: 1.25rem;
+        }
+
+        .map-canvas-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            min-height: 18rem;
+            border-radius: var(--radius-xl);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.04);
+            border: 0.0625rem solid var(--color-border);
+        }
+
+        .map-canvas-container iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 18rem;
+            border: 0;
+            display: block;
+        }
+
+        .map-badge {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background-color: #ffffff;
+            color: #111827;
+            font-size: 0.825rem;
+            font-weight: 600;
+            padding: 0.55rem 1rem;
+            border-radius: var(--radius-pill);
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+            max-width: calc(100% - 2rem);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* ==========================================================================
+           11. FOOTER DÙNG CHUNG CĂN KHỚP BỐ CỤC
+           ========================================================================== */
+        .site-footer-horizontal {
+            background-color: var(--color-accent-soft);
+            color: var(--color-primary-dark);
+            width: calc(100% - (clamp(1rem, 4vw, 2rem) * 2));
+            max-width: calc(75rem - (clamp(1rem, 4vw, 2rem) * 2));
+            margin-inline: auto;
+            margin-top: 1.5rem;
+            margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
+            padding: clamp(1.25rem, 4vw, 2rem);
+            border-radius: var(--radius-lg);
+            box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.03);
+        }
+
+        .footer-horiz-container {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-brand-block,
+        .footer-info-block {
+            min-width: 0;
+            width: 100%;
+        }
+
+        .f-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: lowercase;
+            margin-bottom: 0.4rem;
+            color: var(--color-primary-dark);
+        }
+
+        .f-heading {
+            font-size: 0.85rem;
+            color: var(--color-primary);
+            font-weight: 700;
+            margin-bottom: 0.45rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .f-content, .f-sub {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .f-content a {
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .f-content a:hover {
+            text-decoration: underline;
+        }
+
+        .f-content { 
+            color: var(--color-text-main); 
+        }
+
+        .f-sub { 
+            color: #455a64; 
+            margin-top: 0.2rem; 
+        }
+
+        /* ==========================================================================
+           12. RESPONSIVE BREAKPOINTS (TABLET & DESKTOP >= 768px / 48rem)
+           ========================================================================== */
+        @media (min-width: 36rem) {
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 48rem) {
+            nav {
+                width: auto;
+                order: 2;
+                overflow-x: visible;
+                padding-bottom: 0;
+            }
+
+            .header-box {
+                flex-wrap: nowrap;
+            }
+
+            .btn-join {
+                order: 3;
+            }
+
+            /* Trang chủ */
+            #trang-chu .hero-section {
+                display: grid;
+                grid-template-columns: 1.2fr 0.8fr;
+                align-items: center;
+                gap: 2.5rem;
+            }
+
+            /* Giới thiệu */
+            .timeline-item {
+                flex-direction: row;
+                align-items: center;
+                gap: 2rem;
+            }
+            .timeline-year { min-width: 5rem; }
+            .values-grid { grid-template-columns: repeat(3, 1fr); }
+
+            /* Hoạt động */
+            .photo-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            /* Dự án */
+            .project-main-content {
+                flex-direction: row;
+                align-items: center;
+                gap: 2.5rem;
+            }
+            .project-img-box, .project-info {
+                flex: 1;
+                width: 50%;
+            }
+            .project-card:nth-child(even) .project-main-content {
+                flex-direction: row-reverse;
+            }
+
+            /* Tin tức */
+            .news-grid {
+                display: grid;
+                grid-template-columns: 1.4fr 1fr;
+                gap: 2.5rem;
+                align-items: start;
+            }
+
+            /* Liên hệ */
+            .contact-main-grid {
+                display: grid;
+                grid-template-columns: 1fr 1.3fr;
+                gap: 2.5rem;
+                align-items: start;
+            }
+            .map-canvas-container {
+                aspect-ratio: 16 / 7;
+            }
+            .map-badge {
+                bottom: 1.5rem;
+                left: 1.5rem;
+            }
+
+            /* Footer */
+            .footer-horiz-container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            .footer-brand-block { flex: 1.4; }
+            .footer-info-block { flex: 1; }
+        }
+
+        @media (max-width: 48rem) {
+            .form-card iframe {
+                height: 890px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+     HEADER / THANH ĐIỀU HƯỚNG SPA (DÙNG CHUNG)
+     ========================================================================== -->
+<header>
+    <div class="container header-box">
+        <!-- Logo CLB (Bấm vào quay về Trang chủ) -->
+        <div class="logo" data-page="trang-chu">
+            <span class="logo-badge"></span>
+            <strong>Tình Nguyện Xanh</strong>
+            <span>CLB TP. Hồ Chí Minh</span>
+        </div>
+
+        <!-- Menu 6 trang điều hướng -->
+        <nav>
+            <ul>
+                <li><a class="nav-link nav-active" data-page="trang-chu">Trang chủ</a></li>
+                <li><a class="nav-link" data-page="gioi-thieu">Giới thiệu</a></li>
+                <li><a class="nav-link" data-page="hoat-dong">Hoạt động</a></li>
+                <li><a class="nav-link" data-page="du-an">Dự án</a></li>
+                <li><a class="nav-link" data-page="tin-tuc">Tin tức</a></li>
+                <li><a class="nav-link" data-page="lien-he">Liên hệ</a></li>
+            </ul>
+        </nav>
+
+        <!-- Nút CTA chuyển thẳng tới trang Liên hệ / Đăng ký -->
+        <a class="btn-join" data-page="lien-he">Tham gia ngay</a>
+    </div>
+</header>
+
+    <!-- ==========================================================================
+         NAVBAR CHUNG (SPA CONTROLLER)
+         ========================================================================== */
+    <header>
+        <div class="container header-box">
+            <div class="logo" data-page="trang-chu">
+                <span class="logo-badge"></span>
+                <strong>Tình Nguyện Xanh</strong>
+                <span>CLB TP. Hồ Chí Minh</span>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a class="nav-link nav-active" data-page="trang-chu">Trang chủ</a></li>
+                    <li><a class="nav-link" data-page="gioi-thieu">Giới thiệu</a></li>
+                    <li><a class="nav-link" data-page="hoat-dong">Hoạt động</a></li>
+                    <li><a class="nav-link" data-page="du-an">Dự án</a></li>
+                    <li><a class="nav-link" data-page="tin-tuc">Tin tức</a></li>
+                    <li><a class="nav-link" data-page="lien-he">Liên hệ</a></li>
+                </ul>
+            </nav>
+
+            <a class="btn-join" data-page="lien-he">Tham gia ngay</a>
+        </div>
+    </header>
+
+    <!-- ==========================================================================
+         PAGE 1: TRANG CHỦ (HIỂN THỊ MẶC ĐỊNH ĐẦU TIÊN)
+         ========================================================================== -->
+    <section id="trang-chu" class="spa-page active">
+        <div class="container">
+            <!-- HERO SECTION -->
+            <section class="hero-section">
+                <div class="hero-left">
+                    <p style="color: var(--color-primary); font-weight: 600;">CLB TÌNH NGUYỆN XANH</p>
+                    <h1>Việc nhỏ, làm đều, cho một nơi sống xanh hơn</h1>
+                    <p>Được thành lập từ năm 2020 bởi nhóm sinh viên yêu môi trường tại Thành phố Hồ Chí Minh, Tình Nguyện Xanh là nơi kết nối những người trẻ cùng chung tay hành động vì môi trường và cảnh quan đô thị. Chúng mình tin rằng, mỗi hành động nhỏ hôm nay như làm sạch kênh rạch, phủ xanh đất trồng sẽ kiến tạo nên một không gian sống xanh, bền vững cho thế hệ mai sau.</p>
+                    <a class="link-action" data-page="hoat-dong">Xem lịch hoạt động &rarr;</a>
+                </div>
+                <div class="hero-right">
+                    <img class="placeholder" src="#" alt="Ảnh CLB">
+                </div>
+            </section>
+
+            <!-- SECTION 01: GẦN ĐÂY -->
+            <h2 class="section-title"><span class="section-number">01</span> Gần đây</h2>
+            <section class="grid-3">
+                <div class="event-card">
+                    <div class="date">28/06</div>
+                    <div class="event-title">Workshop "Sống Xanh Từ Nhà Ra Phố"</div>
+                    <div class="location">Nhà văn hóa Thanh niên · 08:00</div>
+                </div>
+                <div class="event-card">
+                    <div class="date">01/07</div>
+                    <div class="event-title">Ra quân dọn rác khu bờ kè kênh Nhiêu Lộc</div>
+                    <div class="location">Khu bờ kè kênh Nhiêu Lộc · 08:00</div>
+                </div>
+                <div class="event-card">
+                    <div class="date">18/08</div>
+                    <div class="event-title">Chiến dịch "Đổi rác nhựa lấy cây xanh"</div>
+                    <div class="location">Công viên Lê Văn Tám · Đã thu gom 150kg nhựa</div>
+                </div>
+            </section>
+
+            <!-- SECTION 02: CHÚNG TÔI LÀM GÌ -->
+            <h2 class="section-title"><span class="section-number">02</span> Chúng tôi làm gì</h2>
+            <section class="grid-3">
+                <div class="activity-card">
+                    <img class="placeholder" src="#" alt="Làm sạch & Bảo tồn bờ biển">
+                    <div class="step">Mảng 01</div>
+                    <h3>Làm sạch & Bảo tồn bờ biển</h3>
+                    <p>Phối hợp tổ chức các chiến dịch tình nguyện thu gom rác thải bãi biển đại trà, xử lý triệt để chất thải khó phân hủy nhằm trả lại cảnh quan tự nhiên và bảo vệ môi trường biển.</p>
+                </div>
+                <div class="activity-card">
+                    <img class="placeholder" src="#" alt="Phân loại & Xử lý rác tại nguồn">
+                    <div class="step">Mảng 02</div>
+                    <h3>Phân loại & Xử lý rác tại nguồn</h3>
+                    <p>Thực hiện quy trình phân loại rác nhựa, túi nilon ngay tại thực địa để tối ưu hóa hiệu quả tái chế; kết hợp tuyên truyền nâng cao ý thức cộng đồng về giảm thiểu chất thải rắn.</p>
+                </div>
+                <div class="activity-card">
+                    <img class="placeholder" src="#" alt="Cải tạo cảnh quan & Phủ xanh">
+                    <div class="step">Mảng 03</div>
+                    <h3>Cải tạo cảnh quan & Phủ xanh</h3>
+                    <p>Chủ động ra quân dọn dẹp thực địa, làm cỏ và triển khai trồng mới các loại cây xanh, cây cảnh quan; góp phần phục hồi hệ sinh thái và mở rộng không gian xanh bền vững.</p>
+                </div>
+            </section>
+
+            <!-- BANNER QUOTE -->
+            <div class="quote-banner">
+                <h2>“BẢO VỆ MÔI TRƯỜNG KHÔNG PHẢI LÀ MỘT CHIẾN DỊCH, ĐÓ LÀ LỐI SỐNG MÀ CHÚNG TÔI LỰA CHỌN VÀ THEO ĐUỔI.”</h2>
+                <p>— Nguyễn Văn A, chủ nhiệm CLB —</p>
+            </div>
+
+            <!-- SECTION 03: NHỮNG NGƯỜI ĐỨNG SAU -->
+            <h2 class="section-title"><span class="section-number">03</span> Những người đứng sau</h2>
+            <section class="grid-4">
+                <div class="team-card">
+                    <img class="placeholder" src="#" alt="Chủ nhiệm">
+                    <h3>Nguyễn Văn A</h3>
+                    <p>Chủ nhiệm</p>
+                </div>
+                <div class="team-card">
+                    <img class="placeholder" src="#" alt="Phó chủ nhiệm">
+                    <h3>Trần Thị B</h3>
+                    <p>Phó chủ nhiệm</p>
+                </div>
+                <div class="team-card">
+                    <img class="placeholder" src="#" alt="Ban sự kiện">
+                    <h3>Lê Văn C</h3>
+                    <p>Ban sự kiện</p>
+                </div>
+                <div class="team-card">
+                    <img class="placeholder" src="#" alt="Ban truyền thông">
+                    <h3>Phạm Thị D</h3>
+                    <p>Ban truyền thông</p>
+                </div>
+            </section>
+
+            <!-- SECTION 04: MUỐN THAM GIA? -->
+            <h2 class="section-title"><span class="section-number">04</span> Muốn tham gia?</h2>
+            <section class="grid-3">
+                <div class="join-card">
+                    <div class="num">1</div>
+                    <h3>Điền form đăng ký</h3>
+                    <p>Mất khoảng 3 phút</p>
+                </div>
+                <div class="join-card">
+                    <div class="num">2</div>
+                    <h3>Gặp mặt làm quen</h3>
+                    <p>Thứ 7, Chủ Nhật hằng tuần · Trường Cao Đẳng Công Nghệ Thủ Đức</p>
+                </div>
+                <div class="join-card">
+                    <div class="num">3</div>
+                    <h3>Cùng làm buổi đầu tiên</h3>
+                    <p>Không cần kinh nghiệm</p>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         PAGE 2: GIỚI THIỆU
+         ========================================================================== -->
+    <section id="gioi-thieu" class="spa-page">
+        <!-- GIỚI THIỆU HERO -->
+        <section class="container about-hero">
+            <div class="about-subtitle">Giới thiệu</div>
+            <h1>Chúng tôi là ai</h1>
+            <div class="description">Chúng tôi là một tập thể những người trẻ nhiệt huyết, kết nối với nhau bằng tình yêu thiên nhiên và khát khao bảo vệ môi trường. Được thành lập với sứ mệnh lan tỏa lối sống xanh, chúng tôi tập trung vào các hành động thiết thực như cải tạo cảnh quan, làm sạch bờ biển và thúc đẩy tái chế trong cộng đồng.</div>
+            
+            <div class="hero-images">
+                <div class="placeholder-img img-top"> 
+                    <img src="#" alt="Ảnh giới thiệu 1">
+                </div>
+                <div class="placeholder-img img-bottom"> 
+                    <img src="#" alt="Ảnh giới thiệu 2">
+                </div>
+            </div>
+        </section>
+
+        <!-- 01. HÀNH TRÌNH -->
+        <section class="container timeline-section">
+            <div class="section-title">
+                <span class="section-number">01</span> Hành trình
+            </div>
+            <div class="timeline-container">
+                <div class="timeline-item">
+                    <div class="timeline-year">2020</div>
+                    <div class="timeline-text">Đặt những viên gạch đầu tiên: Thành lập Câu lạc bộ với sứ mệnh tập hợp những người trẻ đam mê hành động vì môi trường.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-text">Khởi động Chiến dịch "Biển Xanh": Ra mắt dự án quy mô lớn đầu tiên nhằm dọn sạch và bảo tồn hệ sinh thái các bãi biển tại địa phương.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2025</div>
+                    <div class="timeline-text">Mở rộng mạng lưới sống xanh: Đạt mốc kết nối hàng ngàn tình nguyện viên, chuyển đổi thành công hàng tấn rác thải nhựa thành sản phẩm tái chế.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02. ĐIỀU CHÚNG TÔI TIN -->
+        <section class="container values-section">
+            <div class="section-title">
+                <span class="section-number">02</span> Điều chúng tôi tin
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <span>Giá trị 01</span>
+                    <h4>Hành động thiết thực</h4>
+                    <p>Chúng tôi tin rằng một hành động nhỏ được thực hiện ngay lập tức có giá trị hơn vạn lời nói suông về bảo vệ môi trường.</p>
+                </div>
+                <div class="value-card">
+                    <span>Giá trị 02</span>
+                    <h4>Sức mạnh cộng đồng</h4>
+                    <p>Mỗi cá nhân là một mắt xích quan trọng, và khi cùng nhau đồng lòng, chúng ta có thể tạo ra những thay đổi vĩ đại cho hành tinh.</p>
+                </div>
+                <div class="value-card">
+                    <span>Giá trị 03</span>
+                    <h4>Phát triển bền vững</h4>
+                    <p>Mọi hoạt động thu gom hay tái chế đều hướng tới mục tiêu cốt lõi là xây dựng một lối sống xanh dài hạn và tử tế với thiên nhiên.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. BAN CHỦ NHIỆM -->
+        <section class="container team-section">
+            <div class="section-title">
+                <span class="section-number">03</span> Ban chủ nhiệm
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="placeholder-img">
+                        <img src="#" alt="Chủ nhiệm">
+                    </div>
+                    <h4>[HỌ VÀ TÊN]</h4>
+                    <p>Chủ nhiệm</p>
+                </div>
+                <div class="team-member">
+                    <div class="placeholder-img">  
+                        <img src="#" alt="Nguyễn Tuệ Tâm">
+                    </div>
+                    <h4>Nguyễn Tuệ Tâm</h4>
+                    <p>Phó chủ nhiệm</p>
+                </div>
+                <div class="team-member">
+                    <div class="placeholder-img">
+                        <img src="#" alt="Ban sự kiện">
+                    </div>
+                    <h4>[HỌ VÀ TÊN]</h4>
+                    <p>Ban sự kiện</p>
+                </div>
+                <div class="team-member">
+                    <div class="placeholder-img">
+                        <img src="#" alt="Ban truyền thông">
+                    </div>
+                    <h4>[HỌ VÀ TÊN]</h4>
+                    <p>Ban truyền thông</p>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- ==========================================================================
+         PAGE 3: HOẠT ĐỘNG
+         ========================================================================== -->
+    <section id="hoat-dong" class="spa-page">
+        <!-- TIÊU ĐỀ TRANG -->
+        <section class="container page-title-section">
+            <div class="page-subtitle">Hoạt động</div>
+            <h1>Lịch & nhật ký hoạt động</h1>
+            <div class="description">Những buổi đã và sắp diễn ra, mở cho mọi bạn quan tâm.</div>
+        </section>
+
+        <!-- 01. SẮP DIỄN RA -->
+        <section class="container upcoming-section">
+            <div class="section-title" style="font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem;">
+                <span class="section-number">01</span> Sắp diễn ra
+            </div>
+            
+            <!-- Thanh điều hướng Tab -->
+            <div class="tabs">
+                <span class="tab-item active" onclick="chuyenTab(event, 'sap-toi')">Sắp tới</span>
+                <span class="tab-item" onclick="chuyenTab(event, 'da-qua')">Đã qua</span>
+            </div>
+
+            <!-- KHỐI 1: DANH SÁCH SẮP TỚI -->
+            <div id="tab-sap-toi" class="tab-content active">
+                <div class="schedule-item">
+                    <div class="schedule-date">22/03/2027 - Workshop "Tái chế sáng tạo - Cũ kỹ hóa lung linh"</div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6qG5UgYaJv2rSSsdMJwoAzebUEV4ft_MdI6dLJ6PgEHOR5A/viewform" target="_blank" class="schedule-link">Đăng ký —</a>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">11/04/2027 - Chiến dịch "Đổi rác lấy quà xanh"</div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe4auRSvRVUGKQP30IpwHbM-C1Fbx88aYLI5PyvD9JG2FE81Q/viewform" target="_blank" class="schedule-link">Đăng ký —</a>
+                </div>
+                <div class="schedule-item">
+                    <div class="schedule-date">02/05/2027 - Ngày hội "Gieo mầm xanh - Trồng cây phủ đồi trọc"</div>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdYS9jwMVkKQEh0uqtqPySEcJaaXkEM-kTQvxpxVvXEadKhjA/viewform" target="_blank" class="schedule-link">Đăng ký —</a>
+                </div>
+            </div>
+
+            <!-- KHỐI 2: DANH SÁCH ĐÃ QUA -->
+            <div id="tab-da-qua" class="tab-content">
+                <div class="schedule-item" style="opacity: 0.7;">
+                    <div class="schedule-date">15/10/2026 - Chiến dịch "Làm sạch bờ biển vững bền"</div>
+                    <span class="schedule-link" style="color: #888888;">Đã kết thúc</span>
+                </div>
+                <div class="schedule-item" style="opacity: 0.7;">
+                    <div class="schedule-date">05/06/2026 - Ngày hội môi trường "Sống Xanh Đồng Hành"</div>
+                    <span class="schedule-link" style="color: #888888;">Đã kết thúc</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02. NHẬT KÝ ĐÃ QUA -->
+        <section class="container past-section">
+            <div class="section-title">
+                <span class="section-number">02</span> Nhật ký đã qua
+            </div>
+
+            <div class="photo-grid">
+                <div class="photo-card">
+                    <img src="#" alt="Ảnh hoạt động 1">
+                </div>
+                <div class="photo-card">
+                    <img src="#" alt="Ảnh hoạt động 2">
+                </div>
+                <div class="photo-card">
+                    <img src="#" alt="Ảnh hoạt động 3">
+                </div>
+                <div class="photo-card">
+                    <img src="#" alt="Ảnh hoạt động 4">
+                </div>
+                <div class="photo-card">
+                    <img src="#" alt="Ảnh hoạt động 5">
+                </div>
+                <div class="photo-card">
+                    <img src="#" alt="Ảnh hoạt động 6">
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- ==========================================================================
+         PAGE 4: DỰ ÁN
+         ========================================================================== -->
+    <section id="du-an" class="spa-page">
+        <!-- PROJECTS HERO -->
+        <section class="container projects-hero">
+            <div class="projects-subtitle">Dự án</div>
+            <h1>Những việc chúng tôi đã làm</h1>
+        </section>
+
+        <!-- LIST DỰ ÁN -->
+        <section class="container projects-list">
+            <!-- DỰ ÁN 01 -->
+            <article class="project-card">
+                <div class="project-main-content">
+                    <div class="project-img-box">
+                        <div class="placeholder-img">
+                            <img src="#" alt="Hiện trường dự án 01">
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-num">Dự án 01</span>
+                        <h2>Trồng và chăm cây</h2>
+                        <p class="project-desc">• Nhận thức được tầm quan trọng của không gian xanh, chúng tôi đã triển khai dự án "<b>Trồng và chăm cây</b>" nhằm phủ xanh đất trống, cải thiện không khí và nâng cao ý thức cộng đồng. <br> Dự án được thực hiện bài bản qua các giai đoạn: khảo sát địa điểm, chuẩn bị nguồn cây giống phù hợp, tổ chức ngày hội ra quân và duy trì đội ngũ chăm sóc định kỳ.</p>
+                        <div class="project-meta">• <b>Thời gian:</b> 20/08/2024 - 25/12/2024 <br> • <b>Địa điểm:</b> Khuôn viên Công viên Trung tâm Đô thị Xanh, Phường Thạnh Xuân, Quận 12, TP. Hồ Chí Minh <br> • <b>Kết quả:</b> Phủ xanh 500m², trồng mới 80 cây bóng mát, 200 cây bụi với sự tham gia của 100+ tình nguyện viên.</div>
+                        <button type="button" class="project-link js-toggle-detail">Xem chi tiết →</button>
+                    </div>
+                </div>
+                <!-- VÙNG CHI TIẾT ẨN DỰ ÁN 01 -->
+                <div class="project-detail-panel">
+                    <div class="detail-content">
+                        <h3>Chi tiết Dự án 01: Trồng và chăm cây</h3>
+                        <p><strong>1. Nhật ký hành trình</strong> <br><br>
+                            • <b>Tuần 1 - 2 (20/08 - 03/09/2024):</b> Khảo sát chất đất, lập danh sách cây trồng phù hợp và xin cấp phép từ ban quản lý khu vực. <br>
+                            • <b>Tuần 3 (04/09 - 11/09/2024):</b> Ra quân dọn dẹp mặt bằng, xới tơi đất, bón lót phân vi sinh và tập kết nguồn cây giống. <br>
+                            • <b>Tuần 4 (12/09/2024):</b> Tổ chức sự kiện "Ngày hội Xanh" thu hút hơn 100 tình nguyện viên cùng đào hố, xuống giống và cố định cọc chống. <br>
+                            • <b>Tháng 10 - 12/2024:</b> Duy trì "Đội tuần tra Xanh" luân phiên tưới nước, theo dõi sâu bệnh và bón phân định kỳ cho cây non. <br><br>
+                            <strong>2. Kế hoạch chăm sóc dài hạn</strong> <br><br>
+                            • <b>Tưới nước:</b> Duy trì hệ thống tưới tự động lúc 6h00 sáng và tưới bổ sung lúc 16h30 chiều vào những ngày nắng gắt. <br>
+                            • <b>Dinh dưỡng:</b> Thực hiện xới gốc nhẹ và bổ sung thêm phân bón hữu cơ định kỳ 45 ngày/lần. <br>
+                            • <b>Cắt tỉa:</b> Tổ chức kiểm tra cuối tuần để cắt tỉa lá úa, cành khô và xử lý sâu bệnh phát sinh kịp thời. <br>
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- DỰ ÁN 02 -->
+            <article class="project-card">
+                <div class="project-main-content">
+                    <div class="project-img-box">
+                        <div class="placeholder-img">
+                            <img src="#" alt="Hiện trường dự án 02">
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-num">Dự án 02</span>
+                        <h2>Làm sạch cộng đồng</h2>
+                        <p class="project-desc">• Với mục tiêu cải thiện môi trường sống và nâng cao ý thức bảo vệ vệ sinh cộng đồng, chúng tôi đã triển khai dự án "<b>Làm sạch cộng đồng</b>". <br> • Dự án tập trung vào việc dọn dẹp các khu vực công cộng, thu gom rác thải và tuyên truyền giáo dục người dân về tầm quan trọng của việc giữ gìn vệ sinh môi trường.</p>
+                        <div class="project-meta">• <b>Thời gian:</b> 10/03/2025 - 25/06/2025 <br> • <b>Địa điểm:</b> Khu vực bờ kè Kênh Nhiêu Lộc - Thị Nghè, Quận 1, TP. Hồ Chí Minh <br> • <b>Kết quả:</b> Dọn dẹp 5km đường bờ kè, thu gom 3.5 tấn rác thải nhựa, phát động phong trào xanh đến 800 hộ dân ven kênh.</div>
+                        <button type="button" class="project-link js-toggle-detail">Xem chi tiết →</button>
+                    </div>
+                </div>
+                <!-- VÙNG CHI TIẾT ẨN DỰ ÁN 02 -->
+                <div class="project-detail-panel">
+                    <div class="detail-content">
+                        <h3>Chi tiết Dự án 02: Làm sạch cộng đồng</h3>
+                        <p><strong>1. Nhật ký hành trình</strong> <br><br>
+                            • <b>Tuần 1 - 2 (10/03 - 24/03/2025):</b> Khảo sát các điểm đen về rác thải dọc bờ kênh, chuẩn bị thuyền vớt rác, bao tải, kẹp gắp và đồ bảo hộ y tế. <br>
+                            • <b>Tuần 3 (25/03 - 01/04/2025):</b> Tổ chức các buổi ra quân nhỏ để thu gom rác thải nhựa bám trên các dải cây xanh dọc hai bên bờ kè. <br>
+                            • <b>Tuần 4 (02/04/2025):</b> Ra quân tổng lực dọn dẹp toàn tuyến bờ kè, xóa bỏ các bãi rác tự phát và lắp đặt biển báo "Cấm đổ rác". <br>
+                            • <b>Tháng 04 - 06/2025):</b> Phối hợp với địa phương tổ chức chiến dịch "Vì dòng kênh xanh", phát túi rác tự hủy sinh học cho các hộ dân cư. <br><br>
+                            <strong>2. Kế hoạch duy trì dài hạn</strong> <br><br>
+                            • <b>Tuần tra rác:</b> Thành lập nhóm tình nguyện "Green River" đi dọc bờ kè nhặt rác và nhắc nhở người dân vào mỗi sáng Thứ Bảy. <br>
+                            • <b>Hệ thống thùng rác:</b> Đề xuất lắp đặt thêm 20 thùng rác hình chim cánh cụt dọc tuyến đi bộ để khuyến khích khách vãng lai bỏ rác đúng nơi quy định. <br>
+                            • <b>Tuyên truyền:</b> Tổ chức ngày hội vẽ tranh cổ động bảo vệ môi trường nước cho các em nhỏ tại các trường tiểu học trong quận. <br>
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- DỰ ÁN 03 -->
+            <article class="project-card">
+                <div class="project-main-content">
+                    <div class="project-img-box">
+                        <div class="placeholder-img">
+                            <img src="#" alt="Hiện trường dự án 03">
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-num">Dự án 03</span>
+                        <h2>Tái chế & sống xanh</h2>
+                        <p class="project-desc">• Nhận thức được tầm quan trọng của việc tái chế và sống xanh đối với môi trường và sức khỏe cộng đồng, chúng tôi đã triển khai dự án "<b>Tái chế & sống xanh</b>". <br> • Dự án hướng tới mục tiêu giảm thiểu rác thải, tăng cường ý thức bảo vệ môi trường và thúc đẩy lối sống bền vững thông qua việc hướng dẫn phân loại rác tại nguồn và tổ chức ngày hội đổi rác lấy quà.</p>
+                        <div class="project-meta">• <b>Thời gian:</b> 15/09/2026 - 20/12/2026 <br> • <b>Địa điểm:</b> Nhà văn hóa Thanh niên Cơ sở 2, Đường Điện Biên Phủ, Quận Bình Thạnh, TP. Hồ Chí Minh <br> • <b>Kết quả:</b> Thu gom 2 tấn giấy vụn và vỏ lon, trao tặng 300 cây xanh mầm, hướng dẫn phân loại rác thành công cho 400 hộ gia đình.</div>
+                        <button type="button" class="project-link js-toggle-detail">Xem chi tiết →</button>
+                    </div>
+                </div>
+                <!-- VÙNG CHI TIẾT ẨN DỰ ÁN 03 -->
+                <div class="project-detail-panel">
+                    <div class="detail-content">
+                        <h3>Chi tiết Dự án 03: Tái chế & sống xanh</h3>
+                        <p><strong>1. Nhật ký hành trình</strong> <br><br>
+                            • <b>Tuần 1 - 2 (15/09 - 29/09/2026):</b> Liên hệ với các đơn vị thu mua phế liệu tái chế, chuẩn bị các gian hàng đổi quà (sen đá, bình nước thủy tinh, túi vải) và in ấn tài liệu hướng dẫn. <br>
+                            • <b>Tuần 3 (30/09 - 07/10/2026):</b> Triển khai chiến dịch truyền thông online và đặt các thùng phân loại rác mẫu tại các khu phố mục tiêu. <br>
+                            • <b>Tuần 4 (08/10/2026):</b> Tổ chức sự kiện chính "Ngày hội Đổi rác lấy quà". Đông đảo người dân và các bạn trẻ đã mang giấy báo cũ, chai nhựa đến để tích điểm đổi quà xanh. <br>
+                            • <b>Tháng 11 - 12/2026:</b> Tổ chức các buổi workshop hướng dẫn làm đồ tái chế handmade (làm chậu hoa từ chai nhựa, làm nến thơm từ dầu ăn thừa). <br><br>
+                            <strong>2. Kế hoạch duy trì dài hạn</strong> <br><br>
+                            • <b>Trạm xanh cố định:</b> Duy trì một điểm thu gom pin cũ và rác điện tử tại nhà văn hóa vào mỗi ngày cuối tháng. <br>
+                            • <b>Đại sứ sống xanh:</b> Thành lập nhóm học sinh, sinh viên nòng cốt để tiếp tục lan tỏa kiến thức phân loại rác tại các trường học địa phương. <br>
+                            • <b>Cẩm nang điện tử:</b> Xây dựng và phát hành file PDF cẩm nang "Sống xanh mỗi ngày" để cộng đồng dễ dàng tra cứu cách tái chế tại nhà. <br>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </section>
+
+    <!-- ==========================================================================
+         PAGE 5: TIN TỨC
+         ========================================================================== -->
+    <section id="tin-tuc" class="spa-page">
+        <!-- TIN TỨC HERO -->
+        <section class="container news-hero">
+            <div class="news-subtitle">Tin tức</div>
+            <h1>Bản tin & bài viết</h1>
+        </section>
+
+        <!-- MAIN NEWS GRID -->
+        <main class="container news-grid">
+            <!-- BÀI VIẾT NỔI BẬT LỚN -->
+            <article class="featured-post">
+                <div class="placeholder-img">
+                    <img src="#" alt="Ảnh bài viết nổi bật">
+                </div>
+                <div class="post-meta">[NGÀY] · [CHUYÊN MỤC]</div>
+                <h2>[Tiêu đề bài viết nổi bật]</h2>
+                <p>[Mở đầu bài viết 2 - 3 câu giới thiệu ngắn gọn về sự kiện hoặc chiến dịch vừa qua của CLB Tình Nguyện Xanh...]</p>
+                
+                <!-- PHẦN NỘI DUNG CHI TIẾT SẼ HIỆN RA KHI NHẤN "ĐỌC TIẾP" -->
+                <div class="post-more-content" id="moreContent">
+                    <p>Chiến dịch đã thu hút hơn 100 tình nguyện viên cùng người dân địa phương tham gia với tinh thần nhiệt huyết cao nhất. Chúng mình đã phối hợp phân loại rác thải tại nguồn, thu gom rác nhựa và tiến hành trồng mới cây xanh trên các tuyến đường.</p>
+                    <p>Thông qua hoạt động này, câu lạc bộ mong muốn lan tỏa mạnh mẽ thông điệp: Mỗi hành động nhỏ hôm nay sẽ góp phần tạo nên một môi trường sống trong lành và bền vững cho tương lai.</p>
+                </div>
+
+                <!-- Nút bấm Đọc tiếp / Thu gọn -->
+                <a href="javascript:void(0);" class="read-more" id="readMoreBtn">Đọc tiếp —</a>
+            </article>
+
+            <!-- CỘT TIN MỚI ĐĂNG BÊN PHẢI -->
+            <aside>
+                <div class="sidebar-title">Mới đăng</div>
+                <div class="side-list">
+                    <div class="side-item">
+                        <div class="post-meta">[NGÀY] · [CHUYÊN MỤC]</div>
+                        <h4>[Tiêu đề bài viết]</h4>
+                    </div>
+                    <div class="side-item">
+                        <div class="post-meta">[NGÀY] · [CHUYÊN MỤC]</div>
+                        <h4>[Tiêu đề bài viết]</h4>
+                    </div>
+                    <div class="side-item">
+                        <div class="post-meta">[NGÀY] · [CHUYÊN MỤC]</div>
+                        <h4>[Tiêu đề bài viết]</h4>
+                    </div>
+                    <div class="side-item">
+                        <div class="post-meta">[NGÀY] · [CHUYÊN MỤC]</div>
+                        <h4>[Tiêu đề bài viết]</h4>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- 01. BẢN TIN HẰNG THÁNG -->
+        <section class="container monthly-section">
+            <div class="section-title">
+                <span class="section-number">01</span> Bản tin hằng tháng
+            </div>
+            <div class="monthly-list">
+                <div class="monthly-item">
+                    <div class="date">[THÁNG/NĂM]</div>
+                    <h4>[Bản tin CLB số 1]</h4>
+                </div>
+                <div class="monthly-item">
+                    <div class="date">[THÁNG/NĂM]</div>
+                    <h4>[Bản tin CLB số 2]</h4>
+                </div>
+                <div class="monthly-item">
+                    <div class="date">[THÁNG/NĂM]</div>
+                    <h4>[Bản tin CLB số 3]</h4>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <!-- ==========================================================================
+         PAGE 6: LIÊN HỆ
+         ========================================================================== -->
+    <section id="lien-he" class="spa-page">
+        <!-- TIÊU ĐỀ LIÊN HỆ -->
+        <section class="container contact-hero">
+            <div class="contact-subtitle">Liên hệ</div>
+            <h1>Nói chuyện với chúng tôi</h1>
+        </section>
+
+        <!-- KHỐI CHÍNH: THÔNG TIN & FORM LIÊN HỆ -->
+        <main class="container contact-main-grid">
+            <!-- CỘT TRÁI: DANH SÁCH THẺ THÔNG TIN & MẠNG XÃ HỘI -->
+            <div class="contact-left-col">
+                <div class="contact-info-list">
+                    <!-- Thẻ 1: Email -->
+                    <div class="info-card">
+                        <div class="info-pill"></div>
+                        <div class="info-details">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">tinhnguyenxanh@gmail.com</span>
+                        </div>
+                    </div>
+
+                    <!-- Thẻ 2: Điện thoại / Zalo -->
+                    <div class="info-card">
+                        <div class="info-pill"></div>
+                        <div class="info-details">
+                            <span class="info-label">Điện thoại / Zalo</span>
+                            <span class="info-value">0123 456 789</span>
+                        </div>
+                    </div>
+
+                    <!-- Thẻ 3: Địa chỉ sinh hoạt -->
+                    <div class="info-card">
+                        <div class="info-pill"></div>
+                        <div class="info-details">
+                            <span class="info-label">Địa chỉ sinh hoạt</span>
+                            <span class="info-value">53 Võ Văn Ngân, P. Linh Chiểu, TP. Thủ Đức, TP.HCM</span>
+                        </div>
+                    </div>
+
+                    <!-- Thẻ 4: Lịch gặp mặt -->
+                    <div class="info-card">
+                        <div class="info-pill"></div>
+                        <div class="info-details">
+                            <span class="info-label">Lịch gặp mặt</span>
+                            <span class="info-value">Thứ Bảy, 14:00 - 16:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Thẻ 5: Người phụ trách -->
+                    <div class="info-card">
+                        <div class="info-pill"></div>
+                        <div class="info-details">
+                            <span class="info-label">Người phụ trách</span>
+                            <span class="info-value">Nguyễn Văn A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Các nút Mạng xã hội bo tròn viên thuốc -->
+                <div class="social-buttons">
+                    <a href="https://www.facebook.com/tinhnguyenxanh" target="_blank" class="btn-social">Facebook</a>
+                    <a href="https://www.instagram.com/tinhnguyenxanh" target="_blank" class="btn-social">Instagram</a>
+                    <a href="https://www.tiktok.com/@tinhnguyenxanh" target="_blank" class="btn-social">TikTok</a>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI: GOOGLE FORM -->
+            <div class="contact-right-col">
+                <div class="form-card">
+                    <iframe 
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSc4aXSHWipUWdMwZUgP68cgbmcCxrEXzofv1OXNOB7_ZgvBrg/viewform?embedded=true" 
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0">
+                        Đang tải biểu mẫu…
+                    </iframe>
+                </div>
+            </div>
+        </main>
+
+        <!-- BẢN ĐỒ -->
+        <section class="container map-section">
+            <h2 class="map-title">Tìm chúng tôi ở đâu</h2>
+            <div class="map-canvas-container">
+                <iframe 
+                    src="https://www.google.com/maps?q=Tr%C6%B0%E1%BB%9Dng%20Cao%20%C4%91%E1%BA%B3ng%20C%C3%B4ng%20ngh%E1%BB%87%20Th%E1%BB%A7%20%C4%90%E1%BB%A9c,%2053%20V%C3%B5%20V%C4%83n%20Ng%C3%A2n,%20Linh%20Chi%E1%BB%83u,%20Th%E1%BB%A7%20%C4%90%E1%BB%A9c,%20H%E1%BB%93%20Ch%C3%AD%20Minh&output=embed" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <div class="map-badge">📍 CĐ Công nghệ Thủ Đức: 53 Võ Văn Ngân, TP. Thủ Đức</div>
+            </div>
+        </section>
+    </section>
+
+    <!-- ==========================================================================
+         FOOTER CHUNG (SPA READY)
+         ========================================================================== -->
+    <footer class="site-footer-horizontal">
+        <div class="footer-horiz-container">
+            <!-- Khối 1: Tên CLB -->
+            <div class="footer-brand-block">
+                <h3 class="f-title">Tình nguyện xanh</h3>
+                <p class="f-sub">CLB TÌNH NGUYỆN XANH</p>
+                <p class="f-sub">TP. HỒ CHÍ MINH</p>
+            </div>
+
+            <!-- Khối 2: Khám phá -->
+            <div class="footer-info-block">
+                <h4 class="f-heading">Khám phá</h4>
+                <p class="f-content">
+                    <a data-page="trang-chu">Trang chủ</a> · 
+                    <a data-page="gioi-thieu">Giới thiệu</a> · 
+                    <a data-page="hoat-dong">Hoạt động</a> · 
+                    <a data-page="du-an">Dự án</a> · 
+                    <a data-page="tin-tuc">Tin tức</a> · 
+                    <a data-page="lien-he">Liên hệ</a>
+                </p>
+            </div>
+
+            <!-- Khối 3: Liên hệ -->
+            <div class="footer-info-block">
+                <h4 class="f-heading">Liên hệ</h4>
+                <p class="f-content">Email: tinhnguyenxanh@gmail.com <br> Điện thoại: 0123456789</p>
+                <p class="f-sub">Người phụ trách: Nguyễn Văn A</p>
+            </div>
+
+            <!-- Khối 4: Theo dõi -->
+            <div class="footer-info-block">
+                <h4 class="f-heading">Theo dõi</h4>
+                <p class="f-content">
+                    <a href="https://web.facebook.com/share/g/18PcnRXkgq/" target="_blank">Facebook</a> · 
+                    <a href="https://www.instagram.com/clb.tinhnguyenxanh/" target="_blank">Instagram</a> · 
+                    <a href="https://www.tiktok.com/@clb_tinhnguyenxanh0" target="_blank">TikTok</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+         JAVASCRIPT ĐIỀU KHIỂN SPA VÀ TÍNH NĂNG TƯƠNG TÁC
+         ========================================================================== -->
+    <script>
+        // 1. KỊCH BẢN CHUYỂN TRANG SPA
+        function navigateTo(pageId) {
+            const pages = document.querySelectorAll('.spa-page');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Ẩn tất cả các trang
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Hiển thị trang mục tiêu
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // Cập nhật trạng thái active trên navbar
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('nav-active');
+                } else {
+                    link.classList.remove('nav-active');
+                }
+            });
+
+            // Cuộn mượt về đầu trang
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Lắng nghe sự kiện click trên tất cả các thành phần có thuộc tính data-page
+        document.addEventListener('click', function(e) {
+            const trigger = e.target.closest('[data-page]');
+            if (trigger) {
+                e.preventDefault();
+                const targetPageId = trigger.getAttribute('data-page');
+                navigateTo(targetPageId);
+            }
+        });
+
+        // 2. TÍNH NĂNG CHUYỂN TAB TRANG HOẠT ĐỘNG
+        function chuyenTab(event, tabId) {
+            const danhSachTabs = document.querySelectorAll('.tab-content');
+            danhSachTabs.forEach(content => content.classList.remove('active'));
+
+            const nutTabs = document.querySelectorAll('.tab-item');
+            nutTabs.forEach(tab => tab.classList.remove('active'));
+
+            const selectedContent = document.getElementById('tab-' + tabId);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+            event.currentTarget.classList.add('active');
+        }
+
+        // 3. TÍNH NĂNG XEM CHI TIẾT DỰ ÁN & ĐỌC TIẾP TIN TỨC
+        document.addEventListener('DOMContentLoaded', () => {
+            // Toggle mở rộng dự án
+            const toggleProjectBtns = document.querySelectorAll('.js-toggle-detail');
+            toggleProjectBtns.forEach((btn) => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const card = this.closest('.project-card');
+                    card.classList.toggle('is-open');
+
+                    if (card.classList.contains('is-open')) {
+                        this.innerHTML = 'Thu gọn ↑';
+                        this.style.color = '#e74c3c';
+                    } else {
+                        this.innerHTML = 'Xem chi tiết →';
+                        this.style.color = '#2ecc71';
+                    }
+                });
+            });
+
+            // Toggle đọc tiếp tin tức
+            const readMoreBtn = document.getElementById('readMoreBtn');
+            const moreContent = document.getElementById('moreContent');
+            if (readMoreBtn && moreContent) {
+                readMoreBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isShown = moreContent.classList.toggle('show');
+                    this.textContent = isShown ? 'Thu gọn —' : 'Đọc tiếp —';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
